@@ -13,6 +13,7 @@ struct NewCardView: View {
 	@State var definition = ""
 	
 	var body: some View {
+		#if os(iOS)
 		NavigationView {
 			VStack(spacing: 0) {
 				
@@ -65,6 +66,49 @@ struct NewCardView: View {
 			}
 			.navigationTitle("Add Card")
 		}
+		#else
+		VStack {
+			TextField("Term", text: $term)
+				.textFieldStyle(.roundedBorder)
+				.onSubmit {
+					addCard()
+					dismiss()
+				}
+				.onExitCommand {
+					dismiss()
+				}
+			TextField("Definition", text: $definition)
+				.textFieldStyle(.roundedBorder)
+				.onSubmit {
+					addCard()
+					dismiss()
+				}
+				.onExitCommand {
+					dismiss()
+				}
+			
+			HStack {
+				
+				Button("Cancel") {
+					dismiss()
+				}
+				.tint(.orange)
+				.keyboardShortcut(.cancelAction)
+				
+				Button {
+					addCard()
+					dismiss()
+				} label: {
+					Text("Add Card")
+						.font(.headline)
+				}
+				.buttonStyle(.borderedProminent)
+				.tint(.orange)
+				.keyboardShortcut(.defaultAction)
+			}
+		}
+		.padding()
+		#endif
 	}
 	
 	func addCard() {
