@@ -55,6 +55,7 @@ struct FlashcardsView: View {
 					Spacer()
 				}
 			}
+			.padding(.bottom)
 			
 			ZStack {
 				ForEach(0..<cards.count, id: \.self) { index in

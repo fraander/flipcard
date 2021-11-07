@@ -22,9 +22,24 @@ struct ListView: View {
 	@State var editViewCard: CD_Card? = nil
 	
     var body: some View {
-		VStack {
+		VStack(spacing: 0) {
 			NavigationHeader(newCardAction: {}, view: $view)
+			#if os(iOS)
+				.padding(.bottom)
+			#endif
 			
+			#if os(macOS)
+			
+			Text("Your cards")
+				.font(.largeTitle)
+				.bold()
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.padding()
+			
+			Divider()
+			
+			#endif
+
 			List {
 				ForEach(allCards) {card in
 					HStack {
@@ -46,10 +61,16 @@ struct ListView: View {
 						}
 						
 					}
+					#if os(macOS)
+					.padding(.top, 10)
+					#endif
 				}
 				.onDelete { offsets in
 					CoreDataHelper.deleteItems(offsets: offsets, cards: allCards)
 				}
+#if os(macOS)
+				.padding(.leading)
+#endif
 			}
 			.listStyle(.plain)
 			
@@ -69,6 +90,7 @@ struct ListView: View {
 			//
 		} content: { card in
 			EditView(editViewCard: $editViewCard)
+				.frame(width: 300)
 		}
     }
 }

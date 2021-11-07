@@ -19,42 +19,36 @@ struct GridView: View {
 		]
 	) var allCards: FetchedResults<CD_Card>
 	
-	var columns: [[CD_Card]] {
-		var output = [[CD_Card](), [CD_Card]()]
-		
-		for index in (0..<allCards.count) {
-			if index % 2 == 0 {
-				output[0].append(allCards[index])
-			} else {
-				output[1].append(allCards[index])
-			}
-		}
-		
-		return output
-	}
+	@State var numColumns = 2;
 	
     var body: some View {
-		VStack {
-			NavigationHeader(newCardAction: {}, view: $view)
-			
-			ScrollView(.vertical) {
-				HStack {
-					VStack {
-						ForEach(columns[0]) { card in
+		GeometryReader { geo in
+			VStack {
+				NavigationHeader(newCardAction: {}, view: $view)
+				
+				ScrollView(.vertical) {
+					LazyVGrid(columns: Array.init(repeating: GridItem(), count: numColumns)) {
+						ForEach(allCards) { card in
 							GridCardView(card: card)
-								.frame(maxWidth: .infinity, maxHeight: .infinity)
-						}
-					}
-					
-					VStack {
-						ForEach(columns[1]) { card in
-							GridCardView(card: card)
-								.frame(maxWidth: .infinity, maxHeight: .infinity)
 						}
 					}
 				}
+				.padding(.horizontal)
 			}
-			.padding(.horizontal)
+			.task {
+				#if os(macOS)
+				numColumns = Int(geo.size.width / 300)
+				#elseif os(iOS)
+				numColumns = Int(geo.size.width / 150)
+				#endif
+			}
+			.onChange(of: geo.size.width) { _ in
+#if os(macOS)
+				numColumns = Int(geo.size.width / 300)
+#elseif os(iOS)
+				numColumns = Int(geo.size.width / 150)
+#endif
+			}
 		}
     }
 }
@@ -72,17 +66,23 @@ struct GridCardView: View {
 				Text(card._term)
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 					.font(.headline)
+					.foregroundColor(.black)
+					.lineLimit(100)
 				
 				Divider()
 				
 				Text(card._definition)
 					.frame(maxWidth: .infinity, maxHeight: .infinity)
 					.font(.subheadline)
-					.foregroundColor(.secondary)
+					.foregroundColor(.black.opacity(0.5))
+					.lineLimit(100)
 			}
 			.padding()
 		}
 		.padding(10)
+#if os(macOS)
+		.frame(width: 300/*, height: 150*/)
+#endif
 	}
 }
 

@@ -13,6 +13,7 @@ struct EditView: View {
 	@State var definition = ""
 	
 	var body: some View {
+		#if os(iOS)
 		NavigationView {
 			VStack(spacing: 0) {
 				
@@ -54,12 +55,14 @@ struct EditView: View {
 			}
 			.padding()
 			.toolbar {
+				#if os(iOS)
 				ToolbarItem(placement: .navigationBarLeading) {
 					Button("Cancel") {
 						dismiss()
 					}
 					.tint(.orange)
 				}
+				#endif
 			}
 			.navigationTitle("Edit Card")
 			.task {
@@ -70,6 +73,56 @@ struct EditView: View {
 				}
 			}
 		}
+		#else
+		VStack {
+			TextField("Term", text: $term)
+				.textFieldStyle(.roundedBorder)
+				.onSubmit {
+					updateCard()
+					dismiss()
+				}
+				.onExitCommand {
+					dismiss()
+				}
+			TextField("Definition", text: $definition)
+				.textFieldStyle(.roundedBorder)
+				.onSubmit {
+					updateCard()
+					dismiss()
+				}
+				.onExitCommand {
+					dismiss()
+				}
+			
+			HStack {
+				
+				Button("Cancel") {
+					dismiss()
+				}
+				.tint(.orange)
+				.keyboardShortcut(.cancelAction)
+				
+				Button {
+					updateCard()
+					dismiss()
+				} label: {
+					Text("Update Card")
+						.font(.headline)
+				}
+				.buttonStyle(.borderedProminent)
+				.tint(.orange)
+				.keyboardShortcut(.defaultAction)
+			}
+		}
+		.padding()
+		.task {
+			if let c = editViewCard {
+				
+				term = c._term
+				definition = c._definition
+			}
+		}
+#endif
 	}
 	
 	func updateCard() {

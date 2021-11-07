@@ -25,6 +25,7 @@ struct NavigationHeader: View {
 			}
 			.pickerStyle(.segmented)
 			.frame(maxWidth: 120)
+			.labelsHidden()
 			
 			Spacer()
 			

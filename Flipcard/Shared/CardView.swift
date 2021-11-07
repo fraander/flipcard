@@ -15,7 +15,11 @@ struct CardBackground: View {
 	var body: some View {
 		RoundedRectangle(cornerRadius: 20.0)
 			.fill(.white)
+		#if os(iOS)
 			.frame(height: 260)
+		#elseif os(macOS)
+			.frame(width: 300, height: 180)
+		#endif
 			.shadow(color: dragAnimator.width < -dragThreshold + 50 ? .yellow : dragAnimator.width > dragThreshold - 50 ? .green : .black.opacity(0.5), radius: dragAnimator.width < -dragThreshold + 50 && dragAnimator.width > dragThreshold - 50 ? 20 : 5, x: 0, y: 3)
 	}
 }
@@ -40,7 +44,7 @@ struct CardView: View {
 						CardBackground(card: card, dragAnimator: $dragAnimator, dragThreshold: dragThreshold)
 						
 						Text(card._term)
-							.foregroundColor(.primary)
+							.foregroundColor(.black)
 					}
 				} else {
 					ZStack {
@@ -48,7 +52,7 @@ struct CardView: View {
 						CardBackground(card: card, dragAnimator: $dragAnimator, dragThreshold: dragThreshold)
 						
 						Text(card._definition)
-							.foregroundColor(.primary)
+							.foregroundColor(.black)
 					}
 					.rotation3DEffect(Angle(degrees: -flipAnimator), axis: (x: 0, y: 1, z: 0))
 				}
@@ -78,15 +82,18 @@ struct CardView: View {
 							if cards.count > 0 {
 								cards.removeLast()
 							}
-							
+							#if os(iOS)
 							dragAnimator.width += UIScreen.screenWidth
+							#endif
 						} else if drag.translation.width < -dragThreshold {
 							CoreDataHelper.starCard(card: card)
 							if cards.count > 0 {
 								cards.removeLast()
 							}
 							
+							#if os(iOS)
 							dragAnimator.width -= UIScreen.screenWidth
+							#endif
 						} else {
 							dragAnimator = .zero
 						}
@@ -102,11 +109,13 @@ struct CardView: View {
     }
 }
 
-extension UIScreen{
+#if os(iOS)
+extension UIScreen {
 	static let screenWidth = UIScreen.main.bounds.size.width
 	static let screenHeight = UIScreen.main.bounds.size.height
 	static let screenSize = UIScreen.main.bounds.size
 }
+#endif
 
 //struct CardView_Previews: PreviewProvider {
 //    static var previews: some View {

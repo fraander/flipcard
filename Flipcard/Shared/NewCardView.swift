@@ -54,12 +54,14 @@ struct NewCardView: View {
 			}
 			.padding()
 			.toolbar {
+				#if os(iOS)
 				ToolbarItem(placement: .navigationBarLeading) {
 					Button("Cancel") {
 						dismiss()
 					}
 					.tint(.orange)
 				}
+				#endif
 			}
 			.navigationTitle("Add Card")
 		}

@@ -15,6 +15,10 @@ struct FlipcardApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+				.frame(minWidth: 350, minHeight: 400)
         }
+		#if os(macOS)
+		.windowStyle(.hiddenTitleBar)
+		#endif
     }
 }
