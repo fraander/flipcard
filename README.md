@@ -32,7 +32,7 @@ The app icon was made in Bakery by Jordi Bruin.
 ![Dark Mode Screenshot of Add View (Mac)](README_Assets/add_dark_mac.png)
 
 ## Original Goal
-![Sketch](README_Assets/sketch.png)
+![Sketch](README_Assets/sketch.JPG)
 
 Main To-dos: 
 - Make a prettier README.md
