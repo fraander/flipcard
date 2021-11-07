@@ -1,7 +1,7 @@
 # flipcard
 SwiftUIJam November 2021 Submission
 
-![Light Mode Screenshot of List View](README_Assets/01_light_mac)
+![Light Mode Screenshot of List View](README_Assets/01_light_mac.png)
 
 Main To-dos: 
 - Make a prettier README.md
