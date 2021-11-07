@@ -5,7 +5,7 @@ This is Flipcard: the app for reviewing your flashcards.
 
 ## App Icon
 The app icon was made in Bakery by Jordi Bruin.
-![App Icon made in Bakery](icon.png)
+![App Icon made in Bakery](README_Assets/icon.png)
 
 ## Light Mode (iOS)
 ![Light Mode Screenshot of List View (Phone)](README_Assets/01_light_phone.PNG)
