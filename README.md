@@ -1,7 +1,7 @@
 # flipcard
 SwiftUIJam November 2021 Submission
 
-Currently only the iOS version has been optimized. 
+![Light Mode Screenshot of List View](README_Assets/01_light_mac)
 
 Main To-dos: 
 - Make a prettier README.md
